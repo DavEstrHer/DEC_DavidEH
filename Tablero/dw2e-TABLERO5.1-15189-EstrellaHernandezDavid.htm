@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>tablero5.1</title>
+<script>
+    const numMenus=8;
+    var terminado=false;
+
+    function iniciar()
+    {
+        for(i=1;i<numMenus+1;i++)
+        {
+            for(j=1; j<numMenus+1;j++)
+            {
+                var ele=crearNodo('div','caja'+j+i);
+                ele.style.backgroundColor=colorHEX();
+                ele.style.border='1px solid black';
+                ele.style.height='70px';
+                ele.style.width='70px';
+                ele.style.margin='3px';
+                ele.style.padding='2px';
+                ele.style.float='left'; // cajas en linea
+                ele.style.textAlign='center'; // centrar texto
+                ele.style.cursor='pointer'; // manita
+                ele.addEventListener('mouseover',encimaMenu);
+            }
+            crearSalto();
+        }
+    }
+    function encimaMenu()
+    {
+        if(this.style.backgroundColor=='white' && terminado!=true)
+        {
+            alert("Te has equivocado. Vuelve a intentarlo");
+            for(i=1;i<numMenus+1;i++)
+            {
+                for(j=1; j<numMenus+1;j++)
+                {
+                    var caja=document.getElementById('caja'+j+i);
+                    caja.style.backgroundColor=colorHEX();
+                }
+            }
+        }
+        else{
+            var ele=document.getElementById(this.id);
+            ele.style.backgroundColor='white';
+            var contador=0;
+            for(i=1;i<numMenus+1;i++)
+            {
+                for(j=1; j<numMenus+1;j++)
+                {
+                    var caja=document.getElementById('caja'+j+i);
+                    if(caja.style.backgroundColor=='white')
+                    {
+                        contador++;
+                    }
+                    if(contador==64 && terminado!=true)
+                    {
+                        alert("¡Felicidades. Has ganado!");
+                        terminado=true;
+                    }
+                }
+            }
+        }
+    }
+    function crearNodo(tipo,id)
+    {
+        // crea el nodo, lo pone en el body
+        var ele=document.createElement(tipo);
+        document.body.appendChild(ele);
+        ele.id=id; // id del nodo
+        return ele; // retorna la referencia
+    }
+    function crearSalto(){
+	// div vacio sin dimensiones con clear left
+	var ele=document.createElement('div'); // crear nodo
+	ele.style.clear='left'; // css posicionamiento
+	document.body.appendChild(ele);	// añadir nodo al dom 
+    }
+    function generarLetra(){
+	var letras = ["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"];
+	var numero = (Math.random()*15).toFixed(0);
+	return letras[numero];
+    }
+    function colorHEX(){
+        var coolor = "";
+        for(var i=0;i<6;i++){
+            coolor = coolor + generarLetra() ;
+        }
+        return "#" + coolor;
+    }
+window.onload=iniciar;
+</script>
+</head>
+<body>
+</body>
+</html>
